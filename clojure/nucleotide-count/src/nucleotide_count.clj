@@ -1,6 +1,9 @@
 (ns nucleotide-count)
 
-(defn count [nucleotide] (identity nucleotide))
-
 (defn nucleotide-counts [nucleotides]
-  (frequencies nucleotides))
+  (merge {\A 0 \T 0 \C 0 \G 0} (frequencies nucleotides)))
+
+(defn count [nucleotide nucleotides]
+  (let [result (get (nucleotide-counts nucleotides) nucleotide)]
+    (assert (not= result nil))
+    result))
