@@ -2,8 +2,13 @@
 
 (use 'clojure.string)
 
-(defn only-contains [collection valid-values]
-  (filter #(contains? valid-values %1) collection))
+(defn transcribe [nucleotide]
+  (get {\G \C, \C \G, \T \A, \A \U} nucleotide))
+
+(defn no-nils [coll]
+  (every? #(not (nil? %1)) coll))
 
 (defn to-rna [strand]
-  (if (assert (only-contains strand)))
+  (let [transcribed (vec (map transcribe strand))]
+    (assert (no-nils transcribed))
+    (join transcribed)))
